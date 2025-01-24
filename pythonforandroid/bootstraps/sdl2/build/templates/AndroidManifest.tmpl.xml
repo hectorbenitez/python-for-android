@@ -116,6 +116,7 @@
         {% endif %}
         {% for name in service_names %}
         <service android:name="{{ args.package }}.Service{{ name|capitalize }}"
+                 android:foregroundServicetype="connectedDevice"
                  android:process=":service_{{ name }}" />
         {% endfor %}
         {% for name in native_services %}
