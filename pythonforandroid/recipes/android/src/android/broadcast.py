@@ -60,17 +60,29 @@ class BroadcastReceiver(object):
     def start(self):
         Handler = autoclass('android.os.Handler')
         Build = autoclass('android.os.Build')
-        Context = autoclass('android.content.Context')
 
-        self.handlerthread.start()
-        self.handler = Handler(self.handlerthread.getLooper())
+        try:
+            self.handlerthread.start()
+            self.handler = Handler(self.handlerthread.getLooper())
 
-        if Build.VERSION.SDK_INT >= 34:  # Android 14 and above
-            self.context.registerReceiver(
-                self.receiver, self.receiver_filter, None, self.handler, Context.RECEIVER_EXPORTED)
-        else:
-            self.context.registerReceiver(
-                self.receiver, self.receiver_filter, None, self.handler)
+            if Build.VERSION.SDK_INT >= 34:
+                Context = autoclass('android.content.Context')
+                self.context.registerReceiver(
+                    self.receiver,
+                    self.receiver_filter,
+                    None,
+                    self.handler,
+                    Context.RECEIVER_EXPORTED
+                )
+            else:
+                self.context.registerReceiver(
+                    self.receiver,
+                    self.receiver_filter,
+                    None,
+                    self.handler
+                )
+        except Exception as e:
+            print(f"Error python-for-android build: {Build.VERSION.SDK_INT} broadcast in start(): {str(e)}")
 
     def stop(self):
         self.context.unregisterReceiver(self.receiver)
