@@ -58,10 +58,10 @@ class BroadcastReceiver(object):
             self.receiver_filter.addCategory(x)
 
     def start(self):
-        Handler = autoclass('android.os.Handler')
-        Build = autoclass('android.os.Build')
-
         try:
+            Handler = autoclass('android.os.Handler')
+            Build = autoclass('android.os.Build')
+
             self.handlerthread.start()
             self.handler = Handler(self.handlerthread.getLooper())
 
