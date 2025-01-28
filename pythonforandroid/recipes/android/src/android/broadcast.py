@@ -60,12 +60,12 @@ class BroadcastReceiver(object):
     def start(self):
         try:
             Handler = autoclass('android.os.Handler')
-            Build = autoclass('android.os.Build')
+            VERSION = autoclass('android.os.Build$VERSION')
 
             self.handlerthread.start()
             self.handler = Handler(self.handlerthread.getLooper())
 
-            if Build.VERSION.SDK_INT >= 34:
+            if VERSION.SDK_INT >= 34:
                 Context = autoclass('android.content.Context')
                 self.context.registerReceiver(
                     self.receiver,
