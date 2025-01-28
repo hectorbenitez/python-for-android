@@ -82,7 +82,7 @@ class BroadcastReceiver(object):
                     self.handler
                 )
         except Exception as e:
-            print(f"Error python-for-android build: {Build.VERSION.SDK_INT} broadcast in start(): {str(e)}")
+            print(f"Error python-for-android broadcast in start(): {str(e)}")
 
     def stop(self):
         self.context.unregisterReceiver(self.receiver)
