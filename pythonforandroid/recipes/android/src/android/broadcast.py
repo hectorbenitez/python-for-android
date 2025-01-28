@@ -59,11 +59,18 @@ class BroadcastReceiver(object):
 
     def start(self):
         Handler = autoclass('android.os.Handler')
+        Build = autoclass('android.os.Build')
+        Context = autoclass('android.content.Context')
+
         self.handlerthread.start()
         self.handler = Handler(self.handlerthread.getLooper())
-        Context = autoclass('android.content.Context')
-        self.context.registerReceiver(
-            self.receiver, self.receiver_filter, None, self.handler, Context.RECEIVER_EXPORTED)
+
+        if Build.VERSION.SDK_INT >= 34:  # Android 14 and above
+            self.context.registerReceiver(
+                self.receiver, self.receiver_filter, None, self.handler, Context.RECEIVER_EXPORTED)
+        else:
+            self.context.registerReceiver(
+                self.receiver, self.receiver_filter, None, self.handler)
 
     def stop(self):
         self.context.unregisterReceiver(self.receiver)
